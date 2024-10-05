@@ -3,368 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Egg Clicker!!</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Luckiest+Guy&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <title>Dark Themed Clicker Game</title>
     <style>
-        /* CSS Styles */
         body {
-            font-family: 'Fredoka One', cursive;
-            background-color: #f0e68c;
-            color: #333;
-            overflow: hidden; /* Hide overflow for shapes */
-            transition: background-color 0.3s;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #181818;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
         }
-
         .container {
             max-width: 800px;
             margin: 0 auto;
-            text-align: center;
-            position: relative; /* To position the shapes correctly */
+            padding: 20px;
+            background: #222;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
-
-        h1 {
-            font-family: 'Luckiest Guy', cursive;
-            font-size: 3rem;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px #f6b93b;
-        }
-
-        .background-selector {
+        .resource-counter {
+            font-size: 2em;
             margin: 20px 0;
+            transition: transform 0.2s;
         }
-
-        #backgroundSelect, #customColorPicker {
-            padding: 10px;
-            border: 2px solid #f9c74f;
-            border-radius: 5px;
-            font-size: 1rem;
-            background-color: #fff;
-            transition: border 0.3s;
-        }
-
-        #backgroundSelect:focus, #customColorPicker:focus {
-            border-color: #f6b93b;
-            outline: none;
-        }
-
-        .egg-container {
-            margin: 20px 0;
-        }
-
-        #egg {
-            width: 200px;
-            height: auto;
+        .click-button {
+            padding: 15px 30px;
+            font-size: 1.5em;
             cursor: pointer;
-            transition: transform 0.1s;
-        }
-
-        #egg:hover {
-            transform: scale(1.1);
-        }
-
-        .info {
-            margin: 10px 0;
-            font-size: 1.2rem;
-        }
-
-        .horizontal-container {
-            display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-
-        .clicker-section, .shop-section, .automated-income-section, .prestige-system, .achievements, .event-system, .mini-game-section {
-            border: 2px solid #f9c74f;
-            border-radius: 15px;
-            padding: 15px;
-            margin: 10px;
-            width: 180px;
-            background-color: #ffec6c;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .shop-icon {
-            width: 50px;
-            height: 50px;
-        }
-
-        .item {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .item p {
-            margin-left: 10px;
-        }
-
-        button {
-            background-color: #f9c74f;
+            background-color: #4CAF50;
+            color: white;
             border: none;
             border-radius: 5px;
-            padding: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.1s;
-            font-size: 1rem;
+            transition: background-color 0.3s, transform 0.2s;
         }
-
-        button:hover {
-            background-color: #f6b93b;
+        .click-button:hover {
+            background-color: #45a049;
             transform: scale(1.05);
         }
-
-        .upgrade-message, .prestige-message, .achievement-message, .event-message, .mini-game-message {
-            font-size: 0.9rem;
-            color: #c0392b;
-            margin-top: 10px;
+        .upgrade-shop, .achievements, .progress-bar {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         }
-
-        .shapes-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; /* Ensure shapes do not block clicks on game elements */
+        .upgrade {
+            margin: 5px 0;
+            position: relative;
         }
-
-        .shape {
+        .upgrade button {
+            margin-left: 10px;
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        .upgrade button:hover {
+            background-color: #45a049;
+        }
+        .tooltip {
             position: absolute;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%; /* Makes the shapes circular */
-            opacity: 0.7;
-            animation: float 6s ease-in-out infinite alternate;
+            background-color: #444;
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            display: none;
+            z-index: 1;
+        }
+        .progress-bar {
+            height: 20px;
+            background-color: #76c7c0;
+            border-radius: 5px;
+            width: 0; /* This will be updated dynamically */
+        }
+        /* Toast Notification Styles */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.5s, transform 0.5s;
+            transform: translateY(-20px);
+            z-index: 1000;
+        }
+        .toast.show {
+            opacity: 1;
             transform: translateY(0);
         }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0);
-            }
-            100% {
-                transform: translateY(-20px);
-            }
+        /* Coin Generation Animation */
+        @keyframes coinAnimation {
+            from { transform: scale(1); }
+            to { transform: scale(1.5); }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Egg Clicker!!</h1>
+        <h1>Clicker Game</h1>
         
-        <div class="background-selector">
-            <label for="backgroundSelect">Choose Background:</label>
-            <select id="backgroundSelect" onchange="changeBackground()">
-                <option value="default">Default</option>
-                <option value="floatingShapes">Floating Shapes</option>
-                <option value="customColor">Custom Color</option>
-            </select>
-            <input type="color" id="customColorPicker" style="display:none;" onchange="setCustomColor()">
-        </div>
-
-        <div class="egg-container">
-            <img id="egg" src="egg.png" alt="Egg" onclick="clickEgg()">
-            <div class="info">Egg Points: <span id="eggPoints">0</span></div>
-        </div>
-
-        <button id="autoPlayButton" onclick="toggleAutoPlay()">Start Auto Play</button>
-        <div class="upgrade-message" id="upgradeMessage"></div>
-
-        <div class="horizontal-container">
-            <div class="clicker-section">
-                <h2>Clicker</h2>
-                <button onclick="upgrade()">Buy Upgrade (10 Egg Points)</button>
-                <button onclick="buyGoldenEggshell()">Buy Golden Eggshell (100 Egg Points)</button>
-                <button onclick="buyTurboClicks()">Buy Turbo Clicks (150 Egg Points)</button>
-                <button onclick="buyGoldenNest()">Buy Golden Nest (300 Egg Points)</button>
-                <button onclick="buyEggMultiplier()">Buy Egg Multiplier (500 Egg Points)</button>
+        <div class="resource-counter" id="resourceCount">0 Coins</div>
+        
+        <button class="click-button" id="clickButton">Click to Generate</button>
+        
+        <div class="upgrade-shop">
+            <h2>Upgrade Shop</h2>
+            <div class="upgrade" onmouseover="showTooltip(event, 'Increases coins per click by 1.')" onmouseout="hideTooltip()">
+                <span>Basic Upgrade (Cost: 10 Coins)</span>
+                <button onclick="purchaseUpgrade('basic')">Buy</button>
+                <div class="tooltip">Tooltip</div>
             </div>
-
-            <div class="shop-section">
-                <h2>Shop</h2>
-                <div class="item" onclick="buyChickens()">
-                    <img class="shop-icon" src="chicken.png" alt="Chickens">
-                    <p>Buy Chickens (50 Egg Points) - Owned: <span id="chickensOwned">0</span></p>
-                </div>
-                <div class="item" onclick="buyEggFarms()">
-                    <img class="shop-icon" src="egg-farm.png" alt="Egg Farms">
-                    <p>Buy Egg Farms (200 Egg Points) - Owned: <span id="eggFarmsOwned">0</span></p>
-                </div>
+            <div class="upgrade" onmouseover="showTooltip(event, 'Increases coins per click by 5.')" onmouseout="hideTooltip()">
+                <span>Advanced Upgrade (Cost: 50 Coins)</span>
+                <button onclick="purchaseUpgrade('advanced')">Buy</button>
+                <div class="tooltip">Tooltip</div>
             </div>
-
-            <div class="automated-income-section">
-                <h2>Automated Income</h2>
-                <button onclick="earnAchievement()">Earn Achievement</button>
-                <button onclick="triggerEvent()">Trigger Event</button>
-                <button onclick="startMiniGame()">Start Mini-Game</button>
+            <div class="upgrade" onmouseover="showTooltip(event, 'Increases coins per click by 10.')" onmouseout="hideTooltip()">
+                <span>Pro Upgrade (Cost: 100 Coins)</span>
+                <button onclick="purchaseUpgrade('pro')">Buy</button>
+                <div class="tooltip">Tooltip</div>
+            </div>
+            <div class="upgrade" onmouseover="showTooltip(event, 'Increases coins per click by 25.')" onmouseout="hideTooltip()">
+                <span>Elite Upgrade (Cost: 500 Coins)</span>
+                <button onclick="purchaseUpgrade('elite')">Buy</button>
+                <div class="tooltip">Tooltip</div>
+            </div>
+            <div class="upgrade" onmouseover="showTooltip(event, 'Generates 1 coin every second.')" onmouseout="hideTooltip()">
+                <span>Auto-Clicker (Cost: 200 Coins)</span>
+                <button onclick="purchaseAutoClicker()">Buy</button>
+                <div class="tooltip">Tooltip</div>
+            </div>
+            <div class="upgrade" onmouseover="showTooltip(event, 'Reset progress for permanent bonuses.')" onmouseout="hideTooltip()">
+                <span>Prestige (Cost: 1000 Coins)</span>
+                <button onclick="prestige()">Prestige</button>
+                <div class="tooltip">Tooltip</div>
             </div>
         </div>
-
-        <div class="prestige-system">
-            <h2>Prestige</h2>
-            <button onclick="prestige()">Reincubation (1000 Egg Points)</button>
-            <div class="prestige-message" id="prestigeMessage"></div>
-        </div>
-
+        
         <div class="achievements">
             <h2>Achievements</h2>
-            <div class="achievement-message" id="achievementMessage"></div>
+            <ul id="achievementList">
+                <!-- Achievements will be populated here -->
+            </ul>
         </div>
-
-        <div class="event-system">
-            <h2>Event System</h2>
-            <div class="event-message" id="eventMessage"></div>
-        </div>
-
-        <div class="mini-game-section">
-            <h2>Mini Games</h2>
-            <div class="mini-game-message" id="miniGameMessage"></div>
-        </div>
-
-        <div class="shapes-container"></div>
+        
+        <div class="progress-bar" id="progressBar"></div>
+        
+        <p id="progressText">Progress: 0%</p>
     </div>
 
+    <!-- Toast Notification Container -->
+    <div id="toast" class="toast"></div>
+
     <script>
-        // JavaScript Code
-        let eggPoints = 0;
-        let goldenFeathers = 0;
-        let chickensOwned = 0;
-        let eggFarmsOwned = 0;
-        let autoPlayInterval;
-        let autoClicking = false;
+        const coinTiers = [
+            "Bronze Coins", "Silver Coins", "Gold Coins", "Platinum Coins",
+            "Diamond Coins", "Crystal Coins", "Emerald Coins", "Ruby Coins",
+            "Sapphire Coins", "Obsidian Coins", "Mythril Coins", "Celestial Coins"
+        ];
 
-        function clickEgg() {
-            eggPoints++;
-            document.getElementById("eggPoints").innerText = eggPoints;
-        }
+        let resourceCount = parseInt(localStorage.getItem('resourceCount')) || 0;
+        let clickValue = 1;
+        let totalClicks = parseInt(localStorage.getItem('totalClicks')) || 0;
+        let autoClickerCount = parseInt(localStorage.getItem('autoClickerCount')) || 0;
+        let upgrades = JSON.parse(localStorage.getItem('upgrades')) || { basic: false, advanced: false, pro: false, elite: false };
+        const achievements = [];
 
-        function upgrade() {
-            if (eggPoints >= 10) {
-                eggPoints -= 10;
-                document.getElementById("eggPoints").innerText = eggPoints;
-                document.getElementById("upgradeMessage").innerText = "Upgraded! You earn +1 Egg Point per click.";
+        document.getElementById('resourceCount').innerText = resourceCount;
+
+        document.getElementById('clickButton').onclick = function() {
+            totalClicks++;
+            resourceCount += clickValue;
+
+            // Coin generation animation
+            const resourceCounter = document.getElementById('resourceCount');
+            resourceCounter.style.animation = 'coinAnimation 0.2s forwards';
+            setTimeout(() => {
+                resourceCounter.style.animation = '';
+            }, 200);
+
+            document.getElementById('resourceCount').innerText = resourceCount;
+
+            updateProgressBar();
+            checkAchievements();
+            saveProgress();
+        };
+
+        function purchaseUpgrade(type) {
+            const costs = { basic: 10, advanced: 50, pro: 100, elite: 500 };
+            if (resourceCount >= costs[type]) {
+                resourceCount -= costs[type];
+                clickValue += type === 'basic' ? 1 : type === 'advanced' ? 5 : type === 'pro' ? 10 : 25;
+                upgrades[type] = true;
+                document.getElementById('resourceCount').innerText = resourceCount;
+                showToast(`${type.charAt(0).toUpperCase() + type.slice(1)} Upgrade Purchased!`);
+                saveProgress();
             } else {
-                document.getElementById("upgradeMessage").innerText = "Not enough Egg Points!";
+                showToast('Not enough coins!', true);
             }
         }
 
-        function buyGoldenEggshell() {
-            if (eggPoints >= 100) {
-                eggPoints -= 100;
-                document.getElementById("eggPoints").innerText = eggPoints;
-                document.getElementById("upgradeMessage").innerText = "Bought Golden Eggshell!";
+        function purchaseAutoClicker() {
+            const cost = 200;
+            if (resourceCount >= cost) {
+                resourceCount -= cost;
+                autoClickerCount++;
+                document.getElementById('resourceCount').innerText = resourceCount;
+                showToast('Auto-Clicker Purchased!');
+                saveProgress();
             } else {
-                document.getElementById("upgradeMessage").innerText = "Not enough Egg Points!";
+                showToast('Not enough coins!', true);
             }
         }
 
-        function buyTurboClicks() {
-            if (eggPoints >= 150) {
-                eggPoints -= 150;
-                document.getElementById("eggPoints").innerText = eggPoints;
-                document.getElementById("upgradeMessage").innerText = "Bought Turbo Clicks!";
+        function prestige() {
+            const cost = 1000;
+            if (resourceCount >= cost) {
+                showToast('Prestige Activated! You will gain permanent bonuses.');
+                resourceCount = 0; // Reset coins
+                clickValue = 1; // Reset click value
+                totalClicks = 0; // Reset total clicks
+                autoClickerCount = 0; // Reset auto-clickers
+                upgrades = { basic: false, advanced: false, pro: false, elite: false }; // Reset upgrades
+                document.getElementById('resourceCount').innerText = resourceCount;
+                saveProgress();
             } else {
-                document.getElementById("upgradeMessage").innerText = "Not enough Egg Points!";
+                showToast('Not enough coins for Prestige!', true);
             }
         }
 
-        function buyGoldenNest() {
-            if (eggPoints >= 300) {
-                eggPoints -= 300;
-                document.getElementById("eggPoints").innerText = eggPoints;
-                document.getElementById("upgradeMessage").innerText = "Bought Golden Nest!";
-            } else {
-                document.getElementById("upgradeMessage").innerText = "Not enough Egg Points!";
+        // Auto-generate coins every second
+        setInterval(() => {
+            resourceCount += autoClickerCount; // Generate coins based on auto-clickers
+            document.getElementById('resourceCount').innerText = resourceCount;
+            saveProgress();
+        }, 1000);
+
+        function updateProgressBar() {
+            let progress = Math.min((totalClicks / 1000) * 100, 100);
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').innerText = 'Progress: ' + Math.floor(progress) + '%';
+        }
+
+        function checkAchievements() {
+            if (totalClicks >= 100 && !achievements.includes("Click 100 times")) {
+                achievements.push("Click 100 times");
+                document.getElementById('achievementList').innerHTML += '<li>Click 100 times - Unlocked!</li>';
+            }
+            if (resourceCount >= 1000 && !achievements.includes("Generate 1000 Coins")) {
+                achievements.push("Generate 1000 Coins");
+                document.getElementById('achievementList').innerHTML += '<li>Generate 1000 Coins - Unlocked!</li>';
+            }
+            if (totalClicks >= 500 && !achievements.includes("Click 500 times")) {
+                achievements.push("Click 500 times");
+                document.getElementById('achievementList').innerHTML += '<li>Click 500 times - Unlocked!</li>';
+            }
+            if (totalClicks >= 1000 && !achievements.includes("Click 1000 times")) {
+                achievements.push("Click 1000 times");
+                document.getElementById('achievementList').innerHTML += '<li>Click 1000 times - Unlocked!</li>';
+            }
+            if (resourceCount >= 5000 && !achievements.includes("Generate 5000 Coins")) {
+                achievements.push("Generate 5000 Coins");
+                document.getElementById('achievementList').innerHTML += '<li>Generate 5000 Coins - Unlocked!</li>';
             }
         }
 
-        function buyEggMultiplier() {
-            if (eggPoints >= 500) {
-                eggPoints -= 500;
-                document.getElementById("eggPoints").innerText = eggPoints;
-                document.getElementById("upgradeMessage").innerText = "Bought Egg Multiplier!";
-            } else {
-                document.getElementById("upgradeMessage").innerText = "Not enough Egg Points!";
-            }
+        function saveProgress() {
+            localStorage.setItem('resourceCount', resourceCount);
+            localStorage.setItem('totalClicks', totalClicks);
+            localStorage.setItem('autoClickerCount', autoClickerCount);
+            localStorage.setItem('upgrades', JSON.stringify(upgrades));
         }
 
-        function buyChickens() {
-            if (eggPoints >= 50) {
-                eggPoints -= 50;
-                chickensOwned++;
-                document.getElementById("eggPoints").innerText = eggPoints;
-                document.getElementById("chickensOwned").innerText = chickensOwned;
-            }
+        function showTooltip(event, text) {
+            const tooltip = event.currentTarget.querySelector('.tooltip');
+            tooltip.innerText = text;
+            tooltip.style.display = 'block';
+            tooltip.style.left = event.pageX + 'px';
+            tooltip.style.top = (event.pageY - 30) + 'px';
         }
 
-        function buyEggFarms() {
-            if (eggPoints >= 200) {
-                eggPoints -= 200;
-                eggFarmsOwned++;
-                document.getElementById("eggPoints").innerText = eggPoints;
-                document.getElementById("eggFarmsOwned").innerText = eggFarmsOwned;
-            }
+        function hideTooltip() {
+            const tooltips = document.querySelectorAll('.tooltip');
+            tooltips.forEach(tooltip => tooltip.style.display = 'none');
         }
 
-        function toggleAutoPlay() {
-            autoClicking = !autoClicking;
-            const autoPlayButton = document.getElementById('autoPlayButton');
-            if (autoClicking) {
-                autoPlayButton.innerText = "Stop Auto Play";
-                autoPlayInterval = setInterval(() => {
-                    clickEgg();
-                    eggPoints += (chickensOwned * 1) + (eggFarmsOwned * 5); // Adjust based on your desired earnings per second
-                    document.getElementById("eggPoints").innerText = eggPoints;
-                }, 1000);
-            } else {
-                autoPlayButton.innerText = "Start Auto Play";
-                clearInterval(autoPlayInterval);
-            }
-        }
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.style.backgroundColor = isError ? '#D32F2F' : '#333';
+            toast.classList.add('show');
 
-        function changeBackground() {
-            const select = document.getElementById('backgroundSelect');
-            const colorPicker = document.getElementById('customColorPicker');
-            const shapesContainer = document.querySelector('.shapes-container');
-            
-            if (select.value === 'floatingShapes') {
-                setFloatingShapesBackground();
-                colorPicker.style.display = 'none';
-            } else if (select.value === 'customColor') {
-                colorPicker.style.display = 'block';
-                shapesContainer.innerHTML = ''; // Clear shapes if changing to custom color
-            } else {
-                document.body.style.backgroundColor = '#f0e68c'; // Default color
-                shapesContainer.innerHTML = ''; // Clear shapes if returning to default
-            }
-        }
-
-        function setCustomColor() {
-            const customColor = document.getElementById('customColorPicker').value;
-            document.body.style.backgroundColor = customColor;
-        }
-
-        function setFloatingShapesBackground() {
-            const shapesContainer = document.querySelector('.shapes-container');
-            shapesContainer.innerHTML = ''; // Clear existing shapes
-            for (let i = 0; i < 50; i++) {
-                const shape = document.createElement('div');
-                shape.className = 'shape';
-                shape.style.backgroundColor = getRandomColor();
-                shape.style.left = Math.random() * 100 + 'vw';
-                shape.style.top = Math.random() * 100 + 'vh';
-                shape.style.animationDuration = Math.random() * 4 + 4 + 's'; // Randomize floating speed
-                shapesContainer.appendChild(shape);
-            }
-        }
-
-        function getRandomColor() {
-            const letters = '0123456789ABCDEF';
-            let color = '#';
-            for (let i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
         }
     </script>
 </body>
