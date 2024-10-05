@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egg Clicker!!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* CSS Styles */
+        body {
+            font-family: 'Fredoka One', cursive;
+            background-color: #f0e68c;
+            color: #333;
+            overflow: hidden; /* Hide overflow for shapes */
+            transition: background-color 0.3s;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative; /* To position the shapes correctly */
+        }
+
+        h1 {
+            font-family: 'Luckiest Guy', cursive;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px #f6b93b;
+        }
+
+        .background-selector {
+            margin: 20px 0;
+        }
+
+        #backgroundSelect, #customColorPicker {
+            padding: 10px;
+            border: 2px solid #f9c74f;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: #fff;
+            transition: border 0.3s;
+        }
+
+        #backgroundSelect:focus, #customColorPicker:focus {
+            border-color: #f6b93b;
+            outline: none;
+        }
+
+        .egg-container {
+            margin: 20px 0;
+        }
+
+        #egg {
+            width: 200px;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        #egg:hover {
+            transform: scale(1.1);
+        }
+
+        .info {
+            margin: 10px 0;
+            font-size: 1.2rem;
+        }
+
+        .horizontal-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .clicker-section, .shop-section, .automated-income-section, .prestige-system, .achievements, .event-system, .mini-game-section {
+            border: 2px solid #f9c74f;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px;
+            width: 180px;
+            background-color: #ffec6c;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .shop-icon {
+            width: 50px;
+            height: 50px;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .item p {
+            margin-left: 10px;
+        }
+
+        button {
+            background-color: #f9c74f;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #f6b93b;
+            transform: scale(1.05);
+        }
+
+        .upgrade-message, .prestige-message, .achievement-message, .event-message, .mini-game-message {
+            font-size: 0.9rem;
+            color: #c0392b;
+            margin-top: 10px;
+        }
+
+        .shapes-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Ensure shapes do not block clicks on game elements */
+        }
+
+        .shape {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%; /* Makes the shapes circular */
+            opacity: 0.7;
+            animation: float 6s ease-in-out infinite alternate;
+            transform: translateY(0);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Egg Clicker!!</h1>
+        
+        <div class="background-selector">
+            <label for="backgroundSelect">Choose Background:</label>
+            <select id="backgroundSelect" onchange="changeBackground()">
+                <option value="default">Default</option>
+                <option value="floatingShapes">Floating Shapes</option>
+                <option value="customColor">Custom Color</option>
+            </select>
+            <input type="color" id="customColorPicker" style="display:none;" onchange="setCustomColor()">
+        </div>
+
+        <div class="egg-container">
+            <img id="egg" src="egg.png" alt="Egg" onclick="clickEgg()">
+            <div class="info">Egg Points: <span id="eggPoints">0</span></div>
+        </div>
+
+        <button id="autoPlayButton" onclick="toggleAutoPlay()">Start Auto Play</button>
+        <div class="upgrade-message" id="upgradeMessage"></div>
+
+        <div class="horizontal-container">
+            <div class="clicker-section">
+                <h2>Clicker</h2>
+                <button onclick="upgrade()">Buy Upgrade (10 Egg Points)</button>
+                <button onclick="buyGoldenEggshell()">Buy Golden Eggshell (100 Egg Points)</button>
+                <button onclick="buyTurboClicks()">Buy Turbo Clicks (150 Egg Points)</button>
+                <button onclick="buyGoldenNest()">Buy Golden Nest (300 Egg Points)</button>
+                <button onclick="buyEggMultiplier()">Buy Egg Multiplier (500 Egg Points)</button>
+            </div>
+
+            <div class="shop-section">
+                <h2>Shop</h2>
+                <div class="item" onclick="buyChickens()">
+                    <img class="shop-icon" src="chicken.png" alt="Chickens">
+                    <p>Buy Chickens (50 Egg Points) - Owned: <span id="chickensOwned">0</span></p>
+                </div>
+                <div class="item" onclick="buyEggFarms()">
+                    <img class="shop-icon" src="egg-farm.png" alt="Egg Farms">
+                    <p>Buy Egg Farms (200 Egg Points) - Owned: <span id="eggFarmsOwned">0</span></p>
+                </div>
+            </div>
+
+            <div class="automated-income-section">
+                <h2>Automated Income</h2>
+                <button onclick="earnAchievement()">Earn Achievement</button>
+                <button onclick="triggerEvent()">Trigger Event</button>
+                <button onclick="startMiniGame()">Start Mini-Game</button>
+            </div>
+        </div>
+
+        <div class="prestige-system">
+            <h2>Prestige</h2>
+            <button onclick="prestige()">Reincubation (1000 Egg Points)</button>
+            <div class="prestige-message" id="prestigeMessage"></div>
+        </div>
+
+        <div class="achievements">
+            <h2>Achievements</h2>
+            <div class="achievement-message" id="achievementMessage"></div>
+        </div>
+
+        <div class="event-system">
+            <h2>Event System</h2>
+            <div class="event-message" id="eventMessage"></div>
+        </div>
+
+        <div class="mini-game-section">
+            <h2>Mini Games</h2>
+            <div class="mini-game-message" id="miniGameMessage"></div>
+        </div>
+
+        <div class="shapes-container"></div>
+    </div>
+
+    <script>
+        // JavaScript Code
+        let eggPoints = 0;
+        let goldenFeathers = 0;
+        let chickensOwned = 0;
+        let eggFarmsOwned = 0;
+        let autoPlayInterval;
+        let autoClicking = false;
+
+        function clickEgg() {
+            eggPoints++;
+            document.getElementById("eggPoints").innerText = eggPoints;
+        }
+
+        function upgrade() {
+            if (eggPoints >= 10) {
+                eggPoints -= 10;
+                document.getElementById("eggPoints").innerText = eggPoints;
+                document.getElementById("upgradeMessage").innerText = "Upgraded! You earn +1 Egg Point per click.";
+            } else {
+                document.getElementById("upgradeMessage").innerText = "Not enough Egg Points!";
+            }
+        }
+
+        function buyGoldenEggshell() {
+            if (eggPoints >= 100) {
+                eggPoints -= 100;
+                document.getElementById("eggPoints").innerText = eggPoints;
+                document.getElementById("upgradeMessage").innerText = "Bought Golden Eggshell!";
+            } else {
+                document.getElementById("upgradeMessage").innerText = "Not enough Egg Points!";
+            }
+        }
+
+        function buyTurboClicks() {
+            if (eggPoints >= 150) {
+                eggPoints -= 150;
+                document.getElementById("eggPoints").innerText = eggPoints;
+                document.getElementById("upgradeMessage").innerText = "Bought Turbo Clicks!";
+            } else {
+                document.getElementById("upgradeMessage").innerText = "Not enough Egg Points!";
+            }
+        }
+
+        function buyGoldenNest() {
+            if (eggPoints >= 300) {
+                eggPoints -= 300;
+                document.getElementById("eggPoints").innerText = eggPoints;
+                document.getElementById("upgradeMessage").innerText = "Bought Golden Nest!";
+            } else {
+                document.getElementById("upgradeMessage").innerText = "Not enough Egg Points!";
+            }
+        }
+
+        function buyEggMultiplier() {
+            if (eggPoints >= 500) {
+                eggPoints -= 500;
+                document.getElementById("eggPoints").innerText = eggPoints;
+                document.getElementById("upgradeMessage").innerText = "Bought Egg Multiplier!";
+            } else {
+                document.getElementById("upgradeMessage").innerText = "Not enough Egg Points!";
+            }
+        }
+
+        function buyChickens() {
+            if (eggPoints >= 50) {
+                eggPoints -= 50;
+                chickensOwned++;
+                document.getElementById("eggPoints").innerText = eggPoints;
+                document.getElementById("chickensOwned").innerText = chickensOwned;
+            }
+        }
+
+        function buyEggFarms() {
+            if (eggPoints >= 200) {
+                eggPoints -= 200;
+                eggFarmsOwned++;
+                document.getElementById("eggPoints").innerText = eggPoints;
+                document.getElementById("eggFarmsOwned").innerText = eggFarmsOwned;
+            }
+        }
+
+        function toggleAutoPlay() {
+            autoClicking = !autoClicking;
+            const autoPlayButton = document.getElementById('autoPlayButton');
+            if (autoClicking) {
+                autoPlayButton.innerText = "Stop Auto Play";
+                autoPlayInterval = setInterval(() => {
+                    clickEgg();
+                    eggPoints += (chickensOwned * 1) + (eggFarmsOwned * 5); // Adjust based on your desired earnings per second
+                    document.getElementById("eggPoints").innerText = eggPoints;
+                }, 1000);
+            } else {
+                autoPlayButton.innerText = "Start Auto Play";
+                clearInterval(autoPlayInterval);
+            }
+        }
+
+        function changeBackground() {
+            const select = document.getElementById('backgroundSelect');
+            const colorPicker = document.getElementById('customColorPicker');
+            const shapesContainer = document.querySelector('.shapes-container');
+            
+            if (select.value === 'floatingShapes') {
+                setFloatingShapesBackground();
+                colorPicker.style.display = 'none';
+            } else if (select.value === 'customColor') {
+                colorPicker.style.display = 'block';
+                shapesContainer.innerHTML = ''; // Clear shapes if changing to custom color
+            } else {
+                document.body.style.backgroundColor = '#f0e68c'; // Default color
+                shapesContainer.innerHTML = ''; // Clear shapes if returning to default
+            }
+        }
+
+        function setCustomColor() {
+            const customColor = document.getElementById('customColorPicker').value;
+            document.body.style.backgroundColor = customColor;
+        }
+
+        function setFloatingShapesBackground() {
+            const shapesContainer = document.querySelector('.shapes-container');
+            shapesContainer.innerHTML = ''; // Clear existing shapes
+            for (let i = 0; i < 50; i++) {
+                const shape = document.createElement('div');
+                shape.className = 'shape';
+                shape.style.backgroundColor = getRandomColor();
+                shape.style.left = Math.random() * 100 + 'vw';
+                shape.style.top = Math.random() * 100 + 'vh';
+                shape.style.animationDuration = Math.random() * 4 + 4 + 's'; // Randomize floating speed
+                shapesContainer.appendChild(shape);
+            }
+        }
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    </script>
+</body>
+</html>
