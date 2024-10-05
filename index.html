@@ -3,79 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Progress Knight - Coin Clicker Game</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/dark.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <title>Coin Conquest</title>
+    <style>
+        /* Basic styles */
+        body {
+            background-color: #2f2f2f;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .panel {
+            background-color: #444;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            margin: 10px;
+        }
+        .coin-button {
+            background-color: #555;
+            border: none;
+            color: white;
+            padding: 15px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .coin-button:hover {
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+        .tab {
+            display: none;
+        }
+        .tab.active {
+            display: block;
+        }
+    </style>
 </head>
 <body id="body" class="dark">
-    <div class="container">
-        <h1>Progress Knight</h1>
-        <div class="status">
-            <div class="age-display">
-                Age: <span id="ageDisplay">14</span> | Day: <span id="dayDisplay">0</span>
-            </div>
-            <div class="lifespan-display">
-                Lifespan: <span id="lifespanDisplay">70</span> years
-            </div>
-        </div>
-
-        <div class="coin-display">
-            <div id="coinCount" class="coin-count">0</div>
-            <button id="coinButton" class="coin-button">Click for Coins!</button>
-        </div>
-
-        <div class="tier-display">
-            <h2>Coin Tiers</h2>
-            <div class="tier" id="bronze">Bronze Coins: <span class="amount" id="bronzeCount">0</span></div>
-            <div class="tier" id="silver">Silver Coins: <span class="amount" id="silverCount">0</span></div>
-            <div class="tier" id="gold">Gold Coins: <span class="amount" id="goldCount">0</span></div>
-            <div class="tier" id="platinum">Platinum Coins: <span class="amount" id="platinumCount">0</span></div>
-            <div class="tier" id="diamond">Diamond Coins: <span class="amount" id="diamondCount">0</span></div>
-            <div class="tier" id="crystal">Crystal Coins: <span class="amount" id="crystalCount">0</span></div>
-            <div class="tier" id="emerald">Emerald Coins: <span class="amount" id="emeraldCount">0</span></div>
-            <div class="tier" id="ruby">Ruby Coins: <span class="amount" id="rubyCount">0</span></div>
-            <div class="tier" id="sapphire">Sapphire Coins: <span class="amount" id="sapphireCount">0</span></div>
-            <div class="tier" id="obsidian">Obsidian Coins: <span class="amount" id="obsidianCount">0</span></div>
-            <div class="tier" id="mythril">Mythril Coins: <span class="amount" id="mythrilCount">0</span></div>
-            <div class="tier" id="celestial">Celestial Coins: <span class="amount" id="celestialCount">0</span></div>
-        </div>
-
-        <div class="controls">
-            <button id="pauseButton" class="control-button">Pause</button>
-            <div class="automation">
-                <label>Auto-promote <input type="checkbox" id="autoPromote"></label>
-                <label>Auto-learn <input type="checkbox" id="autoLearn"></label>
-            </div>
-        </div>
-
-        <div class="quick-task-display">
-            <h3>Current Task</h3>
-            <div id="quickTaskDisplay">
-                <div class="progress-bar job">
-                    <div class="progress-fill" style="width: 0%;" id="jobProgressFill"></div>
-                    <div class="progress-text name">Job: <span id="jobName">None</span></div>
+    <div class="w3-margin">
+        <h1>Coin Conquest</h1>
+        <div style="width: 1220px; height: auto;">
+            <div class="panel w3-padding" style="width: 300px; height: auto; float: left;">
+                <div style="font-size: large">Coins: <span id="coinDisplay">0</span></div>
+                <div class="sidebar-element" style="color: gray">Total Coins</div>
+                <div id="coinTiers">
+                    <h3>Coin Tiers</h3>
+                    <button class="coin-button" id="bronzeButton" onclick="addCoins('bronze')">Bronze Coins</button>
+                    <button class="coin-button" id="silverButton" onclick="addCoins('silver')">Silver Coins</button>
+                    <button class="coin-button" id="goldButton" onclick="addCoins('gold')">Gold Coins</button>
+                    <button class="coin-button" id="platinumButton" onclick="addCoins('platinum')">Platinum Coins</button>
+                    <button class="coin-button" id="diamondButton" onclick="addCoins('diamond')">Diamond Coins</button>
+                    <button class="coin-button" id="crystalButton" onclick="addCoins('crystal')">Crystal Coins</button>
+                    <button class="coin-button" id="emeraldButton" onclick="addCoins('emerald')">Emerald Coins</button>
+                    <button class="coin-button" id="rubyButton" onclick="addCoins('ruby')">Ruby Coins</button>
+                    <button class="coin-button" id="sapphireButton" onclick="addCoins('sapphire')">Sapphire Coins</button>
+                    <button class="coin-button" id="obsidianButton" onclick="addCoins('obsidian')">Obsidian Coins</button>
+                    <button class="coin-button" id="mythrilButton" onclick="addCoins('mythril')">Mythril Coins</button>
+                    <button class="coin-button" id="celestialButton" onclick="addCoins('celestial')">Celestial Coins</button>
                 </div>
-                <div class="progress-bar skill">
-                    <div class="progress-fill" style="width: 0%;" id="skillProgressFill"></div>
-                    <div class="progress-text name">Skill: <span id="skillName">None</span></div>
+                <div style="font-size: large"><span style="color: rgb(15, 105, 207)">Happiness: </span><span id="happinessDisplay">100</span></div>
+                <div style="color: gray" class="sidebar-element">Affects coin gain</div>
+                <button id="pauseButton" class="w3-button button sidebar-element" onClick="setPause()">Pause</button>
+            </div>
+
+            <div class="panel w3-margin-left" style="width: 900px; height: auto; float: left;">
+                <div class="w3-button w3-bar-item tabButton" id="jobTabButton" onClick="setTab(this, 'jobs')">Jobs</div>
+                <div class="w3-button w3-bar-item tabButton" onClick="setTab(this, 'skills')">Skills</div>
+                <div class="w3-button w3-bar-item tabButton" id="shopTabButton" onClick="setTab(this, 'shop')">Shop</div>
+                <div class="w3-button w3-bar-item tabButton" id="rebirthTabButton" onClick="setTab(this, 'rebirth')">Amulet</div>
+                <div class="w3-button w3-bar-item tabButton" onClick="setTab(this, 'settings')" style="float: right">Settings</div>
+                
+                <div class="tab active" id="jobs">
+                    <h3>Jobs</h3>
+                    <p>Your job descriptions and levels will go here.</p>
+                </div>
+                <div class="tab" id="skills">
+                    <h3>Skills</h3>
+                    <p>Your skill descriptions and levels will go here.</p>
+                </div>
+                <div class="tab" id="shop">
+                    <h3>Shop</h3>
+                    <p>Your shop items will go here.</p>
+                </div>
+                <div class="tab" id="rebirth">
+                    <h3>Amulet</h3>
+                    <p>Your rebirth options will go here.</p>
+                </div>
+                <div class="tab" id="settings">
+                    <h3>Settings</h3>
+                    <p>Your settings options will go here.</p>
                 </div>
             </div>
-        </div>
-
-        <div class="happiness-display">
-            <div style="font-size: large">
-                Happiness: <span id="happinessDisplay">100</span>
-            </div>
-            <div style="color: gray">Affects all XP gain</div>
-        </div>
-
-        <div class="evil-display">
-            <div style="font-size: large">
-                Evil: <span id="evilDisplay">0</span>
-            </div>
-            <div style="color: gray">Affects dark magic XP gain</div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        let totalCoins = 0;
+        const happinessDisplay = document.getElementById('happinessDisplay');
+        
+        function addCoins(type) {
+            let coinValue = 1;
+            switch(type) {
+                case 'bronze': coinValue = 1; break;
+                case 'silver': coinValue = 2; break;
+                case 'gold': coinValue = 5; break;
+                case 'platinum': coinValue = 10; break;
+                case 'diamond': coinValue = 20; break;
+                case 'crystal': coinValue = 50; break;
+                case 'emerald': coinValue = 100; break;
+                case 'ruby': coinValue = 200; break;
+                case 'sapphire': coinValue = 500; break;
+                case 'obsidian': coinValue = 1000; break;
+                case 'mythril': coinValue = 2000; break;
+                case 'celestial': coinValue = 5000; break;
+            }
+            totalCoins += coinValue;
+            document.getElementById('coinDisplay').innerText = totalCoins;
+            updateHappiness();
+        }
+
+        function updateHappiness() {
+            // Example logic for happiness; modify as necessary
+            happinessDisplay.innerText = Math.max(0, 100 - Math.floor(totalCoins / 100));
+        }
+
+        function setTab(button, tabName) {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        function setPause() {
+            // Pause functionality can be implemented here
+            alert("Game Paused!");
+        }
+    </script>
 </body>
 </html>
