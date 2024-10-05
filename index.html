@@ -3,144 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <link rel="stylesheet" type="text/css" href="css/dark.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <title>Coin Conquest</title>
-    <style>
-        /* Basic styles */
-        body {
-            background-color: #2f2f2f;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
-        .panel {
-            background-color: #444;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            padding: 20px;
-            margin: 10px;
-        }
-        .coin-button {
-            background-color: #555;
-            border: none;
-            color: white;
-            padding: 15px;
-            margin: 5px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .coin-button:hover {
-            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.5);
-            transform: scale(1.05);
-        }
-        .tab {
-            display: none;
-        }
-        .tab.active {
-            display: block;
-        }
-    </style>
+    <title>Eternal-Earnings</title>
 </head>
-<body id="body" class="dark">
+<body id="body">
     <div class="w3-margin">
-        <h1>Coin Conquest</h1>
-        <div style="width: 1220px; height: auto;">
-            <div class="panel w3-padding" style="width: 300px; height: auto; float: left;">
-                <div style="font-size: large">Coins: <span id="coinDisplay">0</span></div>
-                <div class="sidebar-element" style="color: gray">Total Coins</div>
-                <div id="coinTiers">
-                    <h3>Coin Tiers</h3>
-                    <button class="coin-button" id="bronzeButton" onclick="addCoins('bronze')">Bronze Coins</button>
-                    <button class="coin-button" id="silverButton" onclick="addCoins('silver')">Silver Coins</button>
-                    <button class="coin-button" id="goldButton" onclick="addCoins('gold')">Gold Coins</button>
-                    <button class="coin-button" id="platinumButton" onclick="addCoins('platinum')">Platinum Coins</button>
-                    <button class="coin-button" id="diamondButton" onclick="addCoins('diamond')">Diamond Coins</button>
-                    <button class="coin-button" id="crystalButton" onclick="addCoins('crystal')">Crystal Coins</button>
-                    <button class="coin-button" id="emeraldButton" onclick="addCoins('emerald')">Emerald Coins</button>
-                    <button class="coin-button" id="rubyButton" onclick="addCoins('ruby')">Ruby Coins</button>
-                    <button class="coin-button" id="sapphireButton" onclick="addCoins('sapphire')">Sapphire Coins</button>
-                    <button class="coin-button" id="obsidianButton" onclick="addCoins('obsidian')">Obsidian Coins</button>
-                    <button class="coin-button" id="mythrilButton" onclick="addCoins('mythril')">Mythril Coins</button>
-                    <button class="coin-button" id="celestialButton" onclick="addCoins('celestial')">Celestial Coins</button>
+        <h1>Eternal-Earnings</h1>
+        <div class="container">
+            <div class="panel">
+                <div class="info">
+                    <div>Age: <span id="ageDisplay">0</span></div>
+                    <div>Lifespan: <span id="lifespanDisplay">100</span> years</div>
+                    <div>Happiness: <span id="happinessDisplay">100</span></div>
+                    <div>Coins: <span id="coinDisplay">0</span></div>
                 </div>
-                <div style="font-size: large"><span style="color: rgb(15, 105, 207)">Happiness: </span><span id="happinessDisplay">100</span></div>
-                <div style="color: gray" class="sidebar-element">Affects coin gain</div>
-                <button id="pauseButton" class="w3-button button sidebar-element" onClick="setPause()">Pause</button>
+                <button id="pauseButton" class="w3-button button" onClick="setPause()">Pause</button>
+                <button class="w3-button button" onClick="rebirth()">Use Amulet</button>
+                <div id="jobOutput" class="output"></div>
             </div>
 
-            <div class="panel w3-margin-left" style="width: 900px; height: auto; float: left;">
-                <div class="w3-button w3-bar-item tabButton" id="jobTabButton" onClick="setTab(this, 'jobs')">Jobs</div>
-                <div class="w3-button w3-bar-item tabButton" onClick="setTab(this, 'skills')">Skills</div>
-                <div class="w3-button w3-bar-item tabButton" id="shopTabButton" onClick="setTab(this, 'shop')">Shop</div>
-                <div class="w3-button w3-bar-item tabButton" id="rebirthTabButton" onClick="setTab(this, 'rebirth')">Amulet</div>
-                <div class="w3-button w3-bar-item tabButton" onClick="setTab(this, 'settings')" style="float: right">Settings</div>
-                
-                <div class="tab active" id="jobs">
-                    <h3>Jobs</h3>
-                    <p>Your job descriptions and levels will go here.</p>
+            <div class="panel">
+                <div class="tabs">
+                    <button class="tabButton" onClick="setTab('jobs')">Jobs</button>
+                    <button class="tabButton" onClick="setTab('skills')">Skills</button>
+                    <button class="tabButton" onClick="setTab('rebirth')">Amulet</button>
+                    <button class="tabButton" onClick="setTab('settings')">Settings</button>
                 </div>
-                <div class="tab" id="skills">
-                    <h3>Skills</h3>
-                    <p>Your skill descriptions and levels will go here.</p>
+
+                <div class="tab" id="jobs">
+                    <h2>Available Jobs</h2>
+                    <button class="w3-button" onClick="work('Miner')">Work as a Miner</button>
+                    <button class="w3-button" onClick="work('Blacksmith')">Work as a Blacksmith</button>
+                    <button class="w3-button" onClick="work('Farmer')">Work as a Farmer</button>
                 </div>
-                <div class="tab" id="shop">
-                    <h3>Shop</h3>
-                    <p>Your shop items will go here.</p>
+
+                <div class="tab" id="skills" style="display: none;">
+                    <h2>Your Skills</h2>
+                    <button class="w3-button" onClick="train('Mining')">Train Mining</button>
+                    <button class="w3-button" onClick="train('Smithing')">Train Smithing</button>
+                    <button class="w3-button" onClick="train('Farming')">Train Farming</button>
                 </div>
-                <div class="tab" id="rebirth">
-                    <h3>Amulet</h3>
-                    <p>Your rebirth options will go here.</p>
+
+                <div class="tab" id="rebirth" style="display: none;">
+                    <h2>Rebirth</h2>
+                    <p>Use the amulet to restart your journey.</p>
                 </div>
-                <div class="tab" id="settings">
-                    <h3>Settings</h3>
-                    <p>Your settings options will go here.</p>
+
+                <div class="tab" id="settings" style="display: none;">
+                    <h2>Settings</h2>
+                    <button class="w3-button" onClick="setLightDarkMode()">Toggle Light/Dark Mode</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
-        let totalCoins = 0;
-        const happinessDisplay = document.getElementById('happinessDisplay');
-        
-        function addCoins(type) {
-            let coinValue = 1;
-            switch(type) {
-                case 'bronze': coinValue = 1; break;
-                case 'silver': coinValue = 2; break;
-                case 'gold': coinValue = 5; break;
-                case 'platinum': coinValue = 10; break;
-                case 'diamond': coinValue = 20; break;
-                case 'crystal': coinValue = 50; break;
-                case 'emerald': coinValue = 100; break;
-                case 'ruby': coinValue = 200; break;
-                case 'sapphire': coinValue = 500; break;
-                case 'obsidian': coinValue = 1000; break;
-                case 'mythril': coinValue = 2000; break;
-                case 'celestial': coinValue = 5000; break;
-            }
-            totalCoins += coinValue;
-            document.getElementById('coinDisplay').innerText = totalCoins;
-            updateHappiness();
-        }
-
-        function updateHappiness() {
-            // Example logic for happiness; modify as necessary
-            happinessDisplay.innerText = Math.max(0, 100 - Math.floor(totalCoins / 100));
-        }
-
-        function setTab(button, tabName) {
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            document.getElementById(tabName).classList.add('active');
-        }
-
-        function setPause() {
-            // Pause functionality can be implemented here
-            alert("Game Paused!");
-        }
-    </script>
+    <script src="main.js"></script>
 </body>
 </html>
