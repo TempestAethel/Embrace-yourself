@@ -26,26 +26,37 @@ function prevPage() {
 }
 
 document.addEventListener('keydown', function(event) {
-    switch (event.key) {
-        case 'ArrowRight':
-        case 'd': // 'D' key for right
-            nextPage();
-            break;
-        case 'ArrowLeft':
-        case 'a': // 'A' key for left
-            prevPage();
-            break;
-        case 'Enter':
-            togglePageDropdown();
-            break;
-        case 'ArrowDown':
-            moveDropdownSelection(1);
-            break;
-        case 'ArrowUp':
-            moveDropdownSelection(-1);
-            break;
-        default:
-            break;
+    const dropdown = document.getElementById('pageDropdown');
+    if (dropdown.style.display === 'block') {
+        switch (event.key) {
+            case 'ArrowDown':
+                moveDropdownSelection(1);
+                break;
+            case 'ArrowUp':
+                moveDropdownSelection(-1);
+                break;
+            case 'Enter':
+                goToDropdownPage();
+                break;
+            default:
+                break;
+        }
+    } else {
+        switch (event.key) {
+            case 'ArrowRight':
+            case 'd':
+                nextPage();
+                break;
+            case 'ArrowLeft':
+            case 'a':
+                prevPage();
+                break;
+            case 'Enter':
+                togglePageDropdown();
+                break;
+            default:
+                break;
+        }
     }
 });
 
@@ -70,14 +81,6 @@ function goToDropdownPage() {
         goToPage(options[dropdownIndex].value);
     }
 }
-
-// Call this function on 'Enter' key press in dropdown
-document.getElementById('pageSelect').addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-        goToDropdownPage();
-    }
-});
-
 
 function toggleDropdown() {
     const dropdown = document.getElementById('fontDropdown');
