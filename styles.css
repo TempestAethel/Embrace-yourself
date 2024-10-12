@@ -15,10 +15,11 @@ body {
     max-width: 420px; /* Max width */
     height: 90vh; /* Responsive height */
     max-height: 600px; /* Max height */
-    border: 1px solid #444444; /* Dark gray */
+    border: 1px solid #073642; /* Teal */
     border-radius: 10px;
     overflow: hidden;
     position: relative;
+    background: linear-gradient(315deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.5)); /* Gradient at opposite angle */
 }
 
 .page {
