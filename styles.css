@@ -50,7 +50,7 @@ p {
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin: 1px 0; /* Reduced margin to 5px */
+    margin: 1.25px 0; /* Reduced margin to 5px */
     color: #ffffff; /* White text */
 }
 
