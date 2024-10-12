@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #001f26, #002b36); /* Dark gradient */
-    color: #93a1a1; /* Light cyan */
+    background: linear-gradient(135deg, #000000, #555555); /* Dark to gray gradient */
+    color: #ffffff; /* White text */
     margin: 0;
     padding: 0;
     display: flex;
@@ -15,7 +15,7 @@ body {
     max-width: 420px; /* Max width */
     height: 90vh; /* Responsive height */
     max-height: 600px; /* Max height */
-    border: 1px solid #073642; /* Teal */
+    border: 1px solid #444444; /* Dark gray */
     border-radius: 10px;
     overflow: hidden;
     position: relative;
@@ -27,7 +27,7 @@ body {
     display: none;
     padding: 20px;
     box-sizing: border-box;
-    background-color: #073642; /* Teal */
+    background-color: #222222; /* Darker background for pages */
     position: absolute;
     transition: opacity 0.5s;
     opacity: 0;
@@ -41,6 +41,7 @@ body {
 
 h1 {
     margin: 10px 0; /* Adjusted margin */
+    color: #ffffff; /* White text */
 }
 
 p {
@@ -49,7 +50,8 @@ p {
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin: 2px 0; /* Further reduced margin */
+    margin: 1px 0; /* Reduced margin to 5px */
+    color: #ffffff; /* White text */
 }
 
 .navigation {
@@ -63,8 +65,8 @@ p {
 }
 
 .arrow-button {
-    background-color: #268bd2; /* Blue */
-    color: #ffffff;
+    background-color: #444444; /* Dark gray */
+    color: #ffffff; /* White text */
     border: none;
     border-radius: 5px;
     padding: 10px;
@@ -76,26 +78,25 @@ p {
 }
 
 .arrow-button:hover {
-    background-color: #2aa198; /* Teal */
+    background-color: #555555; /* Lighter gray on hover */
 }
 
 .page-selector {
-    background-color: #268bd2; /* Blue */
-    color: #ffffff;
+    background-color: #444444; /* Dark gray */
+    color: #ffffff; /* White text */
     border: none;
     border-radius: 5px;
     padding: 10px;
     cursor: pointer;
     font-size: 16px;
-    margin: 0 10px; /* Space between buttons */
 }
 
 .font-selector {
     position: absolute;
     top: 20px;
     right: 20px;
-    background-color: #268bd2;
-    color: #ffffff;
+    background-color: #444444; /* Dark gray */
+    color: #ffffff; /* White text */
     border: none;
     border-radius: 5px;
     padding: 5px;
@@ -108,15 +109,15 @@ p {
     position: absolute;
     top: 40px;
     right: 20px;
-    background-color: #073642; /* Teal */
-    border: 1px solid #268bd2;
+    background-color: #222222; /* Darker background for dropdown */
+    border: 1px solid #444444; /* Dark gray border */
     border-radius: 5px;
     z-index: 1;
 }
 
 .font-dropdown select {
-    background-color: #073642;
-    color: #93a1a1;
+    background-color: #222222; /* Darker background */
+    color: #ffffff; /* White text */
     border: none;
     padding: 5px;
     border-radius: 5px;
@@ -129,7 +130,7 @@ p {
     top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #073642;
+    background-color: #222222; /* Darker background */
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
