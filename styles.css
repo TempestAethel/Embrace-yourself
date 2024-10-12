@@ -139,6 +139,18 @@ p {
 
 }
 
+#page1 {
+    background-color: rgba(255, 255, 255, 0.1); /* Light background for contrast */
+    border: 2px solid #268bd2; /* Border to highlight the page */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px; /* Padding for spacing */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Shadow for depth */
+}
+
 #page1 p {
-    font-size: 4em; /* Larger font size for paragraphs */
+    font-size: 3em; /* Larger font size for paragraphs */
+    color: #ffffff; /* White color for the paragraph text */
+    text-align: center; /* Center-align text */
+    margin: 10px 0; /* Space between paragraphs */
+    line-height: 1.2; /* Line height for readability */
 }
