@@ -1,5 +1,5 @@
 let currentPage = 1;
-const totalPages = 3;
+const totalPages = 20;
 
 function showPage(pageNumber) {
     const pages = document.querySelectorAll('.page');
