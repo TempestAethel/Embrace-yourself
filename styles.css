@@ -136,3 +136,9 @@ p {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     z-index: 10;
 }
+
+}
+
+#page1 p {
+    font-size: 4em; /* Larger font size for paragraphs */
+}
